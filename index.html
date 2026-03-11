@@ -95,86 +95,37 @@
   <section id="projects" class="projects-section">
     <h2 class="section-title text-red">Projects</h2>
 
-    <div class="projects-carousel">
+    <div class="carousel-container" style="overflow: visible;">
+      <button id="prev-project" class="carousel-arrow prev">
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+        </svg>
+      </button>
 
-      <!-- Project 1 -->
-      <div class="project-card">
-        <div class="project-image"
-          style="background-image: url('https://via.placeholder.com/400x250/080808/e02828?text=SYNTHWAVE+SHOW+DAWN');">
-          <div class="play-btn"></div>
-        </div>
-        <div class="project-info">
-          <h3 class="project-name">Synthwave Show Dawn</h3>
-          <div class="project-meta">
-            <span class="meta-tag">
-              <div class="icon-time"></div> 1 Year
-            </span>
-            <span class="meta-tag">
-              <div class="icon-link"></div> Student Project
-            </span>
-          </div>
-          <p class="project-desc">
-            Rhythmic Hero Shooter - 4v4 Multiplayer using Unreal Engine 5.
-          </p>
-          <p class="project-role">
-            I worked as a Game Designer, Gameplay Balancer, Multiplayer Developer, and Lead Backup.
-          </p>
-          <a href="#" class="view-more">Click to view more</a>
-        </div>
+      <div id="projects-carousel" class="projects-carousel">
+        <!-- Projects will be injected here by JS -->
       </div>
 
-      <!-- Project 2 -->
-      <div class="project-card">
-        <div class="project-image"
-          style="background-image: url('https://via.placeholder.com/400x250/080808/e02828?text=LINKED');">
-          <div class="play-btn"></div>
-        </div>
-        <div class="project-info">
-          <h3 class="project-name">Linked</h3>
-          <div class="project-meta">
-            <span class="meta-tag">
-              <div class="icon-time"></div> Game Jam
-            </span>
-            <span class="meta-tag">
-              <div class="icon-link"></div> Itch.io
-            </span>
-          </div>
-          <p class="project-desc">
-            Created during the Brassart Game Jam 2024.
-          </p>
-          <p class="project-role">
-            Winner of the 1st Place! A short, intensive burst of creativity and prototyping under a tight deadline.
-          </p>
-          <a href="#" class="view-more">Click to view more</a>
-        </div>
-      </div>
+      <button id="next-project" class="carousel-arrow next">
+        <svg viewBox="0 0 24 24">
+          <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+        </svg>
+      </button>
+    </div>
 
-      <!-- Project 3 -->
-      <div class="project-card">
-        <div class="project-image"
-          style="background-image: url('https://via.placeholder.com/400x250/080808/e02828?text=BABYBOOM');">
-          <div class="play-btn"></div>
-        </div>
-        <div class="project-info">
-          <h3 class="project-name">Babyboom</h3>
-          <div class="project-meta">
-            <span class="meta-tag">
-              <div class="icon-time"></div> Game Jam
-            </span>
-            <span class="meta-tag">
-              <div class="icon-link"></div> Itch.io
-            </span>
-          </div>
-          <p class="project-desc">
-            Created during the Brassart Game Jam 2025.
-          </p>
-          <p class="project-role">
-            Awarded the 2nd Place. Focused on fun, immediate gameplay loops, and engaging mechanics.
-          </p>
-          <a href="#" class="view-more">Click to view more</a>
-        </div>
-      </div>
+    <!-- Admin: Modify Projects Button -->
+    <div style="text-align: center; margin-top: 40px; display: flex; justify-content: center; gap: 20px;">
+      <button id="admin-modify-projects" class="btn btn-outline"
+        style="font-family: 'Press Start 2P', cursive; font-size: 14px;">
+        Modify Projects
+      </button>
 
+      <div id="add-project-wrapper">
+        <button id="admin-add-project-new" class="btn btn-outline"
+          style="font-family: 'Press Start 2P', cursive; font-size: 14px; color: var(--black); border-color: var(--black); box-shadow: 4px 4px 0 0 var(--red);">
+          + Add New Project
+        </button>
+      </div>
     </div>
   </section>
 
@@ -347,6 +298,40 @@
     <p class="contact-footer">Thanks you for visiting!</p>
   </section>
 
+  <!-- Admin Modals -->
+  <div id="password-modal" class="modal">
+    <div class="modal-content">
+      <h3 class="modal-title">Admin Access</h3>
+      <input type="password" id="admin-password" placeholder="Enter Password" class="modal-input">
+      <div class="modal-actions">
+        <button id="cancel-password" class="btn-pixel small">Cancel</button>
+        <button id="submit-password" class="btn-pixel small">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="project-modal" class="modal">
+    <div class="modal-content wide">
+      <h3 class="modal-title">Add New Project</h3>
+      <form id="project-form" class="modal-form">
+        <div class="form-grid">
+          <input type="text" id="p-name" placeholder="Project Name" required>
+          <input type="text" id="p-image" placeholder="Image URL (Thumbnail)" required>
+          <input type="text" id="p-video" placeholder="Video URL (YouTube/MP4)" required>
+          <input type="text" id="p-time" placeholder="Development Time (e.g. 1 Year)" required>
+          <input type="text" id="p-link" placeholder="Project Type (e.g. Student Project)" required>
+          <textarea id="p-desc" placeholder="Brief Description" required></textarea>
+          <textarea id="p-role" placeholder="Your Role" required></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="cancel-project" class="btn-pixel small">Cancel</button>
+          <button type="submit" class="btn-pixel small">Create Project</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="projects.js"></script>
   <script>
     // Navigation active state and scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

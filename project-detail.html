@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Detail - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Press+Start+2P&family=VT323&display=swap"
+        rel="stylesheet">
+    <style>
+        .detail-section {
+            min-height: 100vh;
+            background-color: var(--white);
+            padding: 120px 40px;
+        }
+
+        .detail-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .detail-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .detail-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 36px;
+            color: var(--red);
+            margin-bottom: 20px;
+        }
+
+        .detail-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .detail-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .detail-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 13px;
+            text-decoration: none;
+            border: 4px solid var(--black);
+            border-radius: 0;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .detail-link-btn:hover {
+            transform: translateY(-4px);
+        }
+
+        .detail-link-btn.youtube {
+            background: var(--red);
+            color: var(--white);
+            box-shadow: 6px 6px 0 0 var(--black);
+        }
+
+        .detail-link-btn.youtube:hover {
+            box-shadow: 10px 10px 0 0 var(--black);
+        }
+
+        .detail-link-btn.itch {
+            background: var(--black);
+            color: var(--white);
+            box-shadow: 6px 6px 0 0 var(--red);
+        }
+
+        .detail-link-btn.itch:hover {
+            box-shadow: 10px 10px 0 0 var(--red);
+        }
+
+        .detail-content {
+            font-size: 24px;
+            line-height: 1.6;
+            color: var(--black);
+        }
+
+        .detail-role-box {
+            background-color: var(--bg-light);
+            border-left: 8px solid var(--red);
+            padding: 30px;
+            margin: 40px 0;
+            font-style: italic;
+        }
+
+        /* Admin Editor Controls */
+        .admin-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .edit-form-container {
+            display: none;
+            background: var(--bg-light);
+            padding: 30px;
+            border: 8px solid var(--black);
+            border-radius: 30px;
+            margin-bottom: 40px;
+            box-shadow: 10px 10px 0 0 var(--black);
+        }
+
+        .edit-form-container.active {
+            display: block;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            background: #eee;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .toolbar-btn {
+            padding: 5px 10px;
+            border: 2px solid var(--black);
+            background: white;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            font-size: 16px;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--red);
+            color: white;
+        }
+
+        #rich-editor {
+            width: 100%;
+            min-height: 300px;
+            max-height: 500px;
+            padding: 20px;
+            border: 4px solid var(--black);
+            border-radius: 15px;
+            background: white;
+            margin-bottom: 20px;
+            font-size: 18px;
+            overflow-y: auto;
+            box-sizing: border-box;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        #rich-editor img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .detail-title {
+                font-size: 24px;
+            }
+
+            .detail-content {
+                font-size: 18px;
+            }
+
+            .floating-back-btn {
+                left: 20px;
+                bottom: 20px;
+                padding: 8px 15px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Global Stardust Background -->
+    <div class="global-particles left" id="particles-left"></div>
+    <div class="global-particles right" id="particles-right"></div>
+
+    <nav class="navbar">
+        <div class="logo"></div>
+    </nav>
+
+    <section class="detail-section">
+        <div class="detail-container">
+            <div class="admin-controls">
+                <button id="edit-project-btn" class="btn btn-outline"
+                    style="font-family: 'Press Start 2P', cursive; font-size: 12px;">
+                    Edit Project
+                </button>
+            </div>
+
+            <div id="edit-form" class="edit-form-container">
+                <h3 style="font-family: 'Press Start 2P', cursive; font-size: 16px; margin-bottom: 20px;">Rich Text
+                    Editor</h3>
+
+                <label style="display: block; font-weight: bold; margin-bottom: 5px;">Lien YouTube</label>
+                <input type="text" id="edit-video"
+                    placeholder="https://youtube.com/watch?v=..."
+                    style="width: 100%; padding: 10px; margin-bottom: 15px; border: 2px solid black; border-radius: 8px; box-sizing: border-box;">
+
+                <label style="display: block; font-weight: bold; margin-bottom: 5px;">Lien Itch.io</label>
+                <input type="text" id="edit-itch"
+                    placeholder="https://itch.io/..."
+                    style="width: 100%; padding: 10px; margin-bottom: 15px; border: 2px solid black; border-radius: 8px; box-sizing: border-box;">
+
+                <div class="editor-toolbar">
+                    <button class="toolbar-btn" onclick="formatDoc('forecolor', 'red')">RED TEXT</button>
+                    <button class="toolbar-btn" onclick="formatDoc('justifyLeft')">LEFT</button>
+                    <button class="toolbar-btn" onclick="formatDoc('justifyCenter')">CENTER</button>
+                    <button class="toolbar-btn" onclick="formatDoc('justifyRight')">RIGHT</button>
+                    <button class="toolbar-btn" onclick="formatDoc('justifyFull')">JUSTIFY</button>
+                    <button class="toolbar-btn" onclick="insertImage()">+ IMAGE/GIF</button>
+                </div>
+
+                <div id="rich-editor" contenteditable="true"></div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button id="cancel-edit" class="btn-pixel small">Cancel</button>
+                    <button id="save-edit" class="btn-pixel small">Save Content</button>
+                </div>
+            </div>
+
+            <div id="project-detail-content">
+                <h1 class="detail-title" id="d-name">Loading...</h1>
+            </div>
+        </div>
+    </section>
+
+    <a href="index.html#projects" class="floating-back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Go Back
+    </a>
+
+    <!-- Password Modal -->
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Admin Access</h3>
+            <input type="password" id="admin-password" placeholder="Enter Password" class="modal-input">
+            <div class="modal-actions">
+                <button id="cancel-password" class="btn-pixel small">Cancel</button>
+                <button id="submit-password" class="btn-pixel small">Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = "admin123";
+        let currentProject = null;
+
+        function formatDoc(cmd, value) {
+            document.execCommand(cmd, false, value);
+        }
+
+        function insertImage() {
+            const url = prompt("Enter Image/GIF URL:");
+            if (url) {
+                formatDoc('insertHTML', `<div class="detail-img-wrapper"><img src="${url}" style="max-width:100%;height:auto;display:block;border-radius:10px;"></div><p><br></p>`);
+            }
+        }
+
+        function renderProject() {
+            if (!currentProject) return;
+
+            document.title = `${currentProject.name} - Portfolio`;
+            const container = document.getElementById('project-detail-content');
+
+            // Boutons liens
+            const ytUrl = currentProject.video || '';
+            const itchUrl = currentProject.itchUrl || '';
+
+            const ytBtn = ytUrl
+                ? `<a href="${ytUrl}" target="_blank" class="detail-link-btn youtube">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg>
+                    Watch on YouTube
+                   </a>`
+                : '';
+
+            const itchBtn = itchUrl
+                ? `<a href="${itchUrl}" target="_blank" class="detail-link-btn itch">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 6.668v1.002c0 1.275.96 2.366 2.394 2.366 1.703 0 2.94-1.388 2.94-2.994 0 1.606 1.197 2.994 2.9 2.994 1.702 0 2.855-1.388 2.855-2.994 0 1.606 1.278 2.994 2.98 2.994 1.702 0 2.855-1.388 2.855-2.994 0 1.606 1.333 2.994 3.038 2.994C21.26 9.036 22 7.946 22 6.67V5.668C22 3.328 19.92.96 18.87.338c-2.755-.087-6.04-.088-9 0C6.9.25 4.55.25 3.13 1.338zm8.87 6.5c-.553 1.5-1.996 2.5-3.533 2.5H8.35c-1.557 0-2.99-1-3.54-2.5v5.5l4-1.5v3.5l3.19 2.5 3.19-2.5v-3.5l4 1.5v-5.5c-.55 1.5-1.993 2.5-3.553 2.5h-.137C14.01 9.338 12.553 7.838 12 7.838z"/></svg>
+                    View on Itch.io
+                   </a>`
+                : '';
+
+            container.innerHTML = `
+        <div class="detail-header">
+          <h1 class="detail-title">${currentProject.name}</h1>
+          <div class="detail-meta">
+            <span class="meta-tag" style="background: var(--bg-dark); color: white;">${currentProject.time}</span>
+            <span class="meta-tag" style="background: var(--red); color: white;">${currentProject.linkTitle}</span>
+          </div>
+        </div>
+
+        <div class="detail-content">
+          ${currentProject.longDesc || '<p>No content yet.</p>'}
+        </div>
+
+        <div class="detail-links">
+          ${ytBtn}
+          ${itchBtn}
+        </div>
+      `;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('id');
+
+            const projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+            currentProject = projects.find(p => p.id == projectId);
+
+            if (currentProject) {
+                renderProject();
+            }
+
+            const editBtn = document.getElementById('edit-project-btn');
+            const pwdModal = document.getElementById('password-modal');
+            const editForm = document.getElementById('edit-form');
+            const editor = document.getElementById('rich-editor');
+
+            editBtn.onclick = () => pwdModal.classList.add('active');
+
+            document.getElementById('cancel-password').onclick = () => {
+                pwdModal.classList.remove('active');
+                document.getElementById('admin-password').value = '';
+            };
+
+            document.getElementById('submit-password').onclick = () => {
+                const input = document.getElementById('admin-password');
+                if (input.value === PASSWORD) {
+                    pwdModal.classList.remove('active');
+                    input.value = '';
+                    document.getElementById('edit-video').value = currentProject.video || '';
+                    document.getElementById('edit-itch').value = currentProject.itchUrl || '';
+                    editor.innerHTML = currentProject.longDesc || "";
+                    editForm.classList.add('active');
+                } else {
+                    alert('Incorrect Password');
+                }
+            };
+
+            document.getElementById('cancel-edit').onclick = () => editForm.classList.remove('active');
+
+            document.getElementById('save-edit').onclick = () => {
+                const ytInput = document.getElementById('edit-video').value.trim();
+                const itchInput = document.getElementById('edit-itch').value.trim();
+                currentProject.video = ytInput;
+                currentProject.itchUrl = itchInput;
+                currentProject.longDesc = editor.innerHTML;
+
+                const allProjects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+                const index = allProjects.findIndex(p => p.id == currentProject.id);
+                if (index > -1) {
+                    allProjects[index] = currentProject;
+                    localStorage.setItem('portfolio_projects', JSON.stringify(allProjects));
+                }
+
+                renderProject();
+                editForm.classList.remove('active');
+            };
+        });
+
+        // Global Stardust Particles (same as index.html)
+        function createStardust() {
+            const leftContainer = document.getElementById('particles-left');
+            const rightContainer = document.getElementById('particles-right');
+            const particleCount = 40;
+
+            function addParticles(container) {
+                if (!container) return;
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'star-dust';
+
+                    const sizeMultiplier = Math.floor(Math.random() * 3) + 1;
+                    const size = sizeMultiplier * 4;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+
+                    particle.style.left = Math.random() * 100 + '%';
+
+                    const duration = 10 + Math.random() * 20;
+                    const delay = Math.random() * 20;
+                    particle.style.animationDuration = duration + 's';
+                    particle.style.animationDelay = '-' + delay + 's';
+
+                    container.appendChild(particle);
+                }
+            }
+            addParticles(leftContainer);
+            addParticles(rightContainer);
+        }
+        createStardust();
+    </script>
+</body>
+
+</html>
