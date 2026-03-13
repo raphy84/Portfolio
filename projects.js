@@ -60,6 +60,12 @@ function renderProjects() {
     container.innerHTML = projects.map(p => `
     <div class="project-card" onclick="if(!isAdmin) window.location.href='project-detail.html?id=${p.id}'">
       <div class="card-actions">
+        <button class="card-action-btn move-left" title="Move left" onclick="event.stopPropagation(); moveProjectLeft(${p.id})">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
+        </button>
+        <button class="card-action-btn move-right" title="Move right" onclick="event.stopPropagation(); moveProjectRight(${p.id})">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" /></svg>
+        </button>
         <button class="card-action-btn edit" title="Modify project" onclick="event.stopPropagation(); startEditProject(${p.id})">
           <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z"/></svg>
         </button>
@@ -84,7 +90,10 @@ function renderProjects() {
 }
 
 // Carousel Logic
-const scrollAmount = 410; // Card width (380) + gap (30)
+function getScrollAmount() {
+    const container = document.getElementById('projects-carousel');
+    return container ? container.clientWidth + 30 : 1230;
+}
 
 function setupCarousel() {
     const container = document.getElementById('projects-carousel');
@@ -94,15 +103,35 @@ function setupCarousel() {
     if (!container || !prevBtn || !nextBtn) return;
 
     prevBtn.onclick = () => {
-        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        container.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
     };
 
     nextBtn.onclick = () => {
-        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        container.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
     };
 }
 
 // CRUD Operations
+function moveProjectLeft(id) {
+    const index = projects.findIndex(p => p.id === id);
+    if (index > 0) {
+        const temp = projects[index];
+        projects[index] = projects[index - 1];
+        projects[index - 1] = temp;
+        saveAndRefresh(true);
+    }
+}
+
+function moveProjectRight(id) {
+    const index = projects.findIndex(p => p.id === id);
+    if (index > -1 && index < projects.length - 1) {
+        const temp = projects[index];
+        projects[index] = projects[index + 1];
+        projects[index + 1] = temp;
+        saveAndRefresh(true);
+    }
+}
+
 function deleteProject(id) {
     if (confirm('Are you sure you want to delete this project?')) {
         projects = projects.filter(p => p.id !== id);
@@ -129,9 +158,18 @@ function startEditProject(id) {
     document.getElementById('p-role').value = project.role;
 }
 
-function saveAndRefresh() {
+function saveAndRefresh(keepScroll = false) {
+    const container = document.getElementById('projects-carousel');
+    const scrollPos = (container && keepScroll) ? container.scrollLeft : 0;
+
     localStorage.setItem('portfolio_projects', JSON.stringify(projects));
     renderProjects();
+
+    if (container && keepScroll) {
+        // Need to find it again after HTML replacement
+        const newContainer = document.getElementById('projects-carousel');
+        if (newContainer) newContainer.scrollLeft = scrollPos;
+    }
 }
 
 // Admin Logic

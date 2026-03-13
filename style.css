@@ -341,15 +341,7 @@ strong {
   overflow: visible;
 }
 
-.projects-carousel {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-  flex-wrap: wrap;
-}
+
 
 .project-card {
   width: 380px;
@@ -442,6 +434,25 @@ strong {
 
 .view-more:hover {
   opacity: 1;
+}
+
+.projects-disclaimer {
+  text-align: center;
+  max-width: 800px;
+  margin: 40px auto 10px auto;
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--black);
+}
+
+.projects-disclaimer a {
+  color: var(--red);
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.projects-disclaimer a:hover {
+  color: var(--black);
 }
 
 
@@ -794,28 +805,46 @@ strong {
 .carousel-container {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 20px;
-  max-width: 1400px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
   position: relative;
-  padding: 0 60px;
-  overflow: visible;
+  overflow: hidden; /* Prevent peeking outside the main boundary */
 }
 
 .projects-carousel {
   display: flex;
   gap: 30px;
-  overflow-x: auto;
+  overflow-x: hidden; /* Prevent peeking, lock to exact width */
   overflow-y: hidden;
   padding: 20px 0 40px 0;
   scroll-behavior: smooth;
-  flex: 1;
+  scroll-snap-type: x mandatory;
+  width: 1200px; /* Exactly 3 cards (3*380) + 2 gaps (2*30) */
+  flex: none;
   flex-wrap: nowrap;
-  /* Force horizontal */
-  -ms-overflow-style: none;
   /* Hide scrollbar IE/Edge */
+  -ms-overflow-style: none;
   scrollbar-width: none;
   /* Hide scrollbar Firefox */
+}
+
+@media (max-width: 1440px) {
+  .projects-carousel {
+    width: 790px; /* Exactly 2 cards (2*380) + gap (30) */
+  }
+}
+
+@media (max-width: 1000px) {
+  .projects-carousel {
+    width: 380px; /* Exactly 1 card */
+  }
+}
+
+.project-card {
+  scroll-snap-align: start;
 }
 
 .projects-carousel::-webkit-scrollbar {
@@ -1082,6 +1111,12 @@ strong {
 
 .card-action-btn.edit:hover {
   background-color: #44aaff;
+  color: white;
+}
+
+.card-action-btn.move-left:hover,
+.card-action-btn.move-right:hover {
+  background-color: #4caf50;
   color: white;
 }
 
