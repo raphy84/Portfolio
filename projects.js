@@ -123,7 +123,6 @@ function startEditProject(id) {
 
     document.getElementById('p-name').value = project.name;
     document.getElementById('p-image').value = project.image;
-    document.getElementById('p-video').value = project.video;
     document.getElementById('p-time').value = project.time;
     document.getElementById('p-link').value = project.linkTitle;
     document.getElementById('p-desc').value = project.desc;
@@ -189,7 +188,6 @@ function setupAdmin() {
         const projectData = {
             name: document.getElementById('p-name').value,
             image: document.getElementById('p-image').value,
-            video: document.getElementById('p-video').value,
             time: document.getElementById('p-time').value,
             linkTitle: document.getElementById('p-link').value,
             desc: document.getElementById('p-desc').value,

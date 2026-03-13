@@ -198,8 +198,7 @@
     <section class="detail-section">
         <div class="detail-container">
             <div class="admin-controls">
-                <button id="edit-project-btn" class="btn btn-outline"
-                    style="font-family: 'Press Start 2P', cursive; font-size: 12px;">
+                <button id="edit-project-btn" class="invisible-admin-btn" title="Admin Login" style="right: 0; left: auto;">
                     Edit Project
                 </button>
             </div>
@@ -295,7 +294,7 @@
 
             const itchBtn = itchUrl
                 ? `<a href="${itchUrl}" target="_blank" class="detail-link-btn itch">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3.13 1.338C2.08 1.96.02 4.328 0 6.668v1.002c0 1.275.96 2.366 2.394 2.366 1.703 0 2.94-1.388 2.94-2.994 0 1.606 1.197 2.994 2.9 2.994 1.702 0 2.855-1.388 2.855-2.994 0 1.606 1.278 2.994 2.98 2.994 1.702 0 2.855-1.388 2.855-2.994 0 1.606 1.333 2.994 3.038 2.994C21.26 9.036 22 7.946 22 6.67V5.668C22 3.328 19.92.96 18.87.338c-2.755-.087-6.04-.088-9 0C6.9.25 4.55.25 3.13 1.338zm8.87 6.5c-.553 1.5-1.996 2.5-3.533 2.5H8.35c-1.557 0-2.99-1-3.54-2.5v5.5l4-1.5v3.5l3.19 2.5 3.19-2.5v-3.5l4 1.5v-5.5c-.55 1.5-1.993 2.5-3.553 2.5h-.137C14.01 9.338 12.553 7.838 12 7.838z"/></svg>
+                    <img src="Ressources/Itch.ioLogo.png" alt="Itch.io" style="width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1);">
                     View on Itch.io
                    </a>`
                 : '';
