@@ -84,9 +84,13 @@ function renderProjects() {
         const desc = currentLang === 'fr' ? (p.desc_fr || p.desc) : p.desc;
         const role = currentLang === 'fr' ? (p.role_fr || p.role) : p.role;
         const viewMore = currentLang === 'fr' ? "Cliquez pour en voir plus" : "Click to view more";
+        const wipText = currentLang === 'fr' ? (translations.fr.wip_link) : (translations.en.wip_link);
+
+        const cardOnClick = (p.isWIP && !isAdmin) ? '' : `onclick="window.location.href='project-detail.html?id=${p.id}'"`;
+        const footerText = p.isWIP ? `<span class="view-more wip-status">${wipText}</span>` : `<span class="view-more">${viewMore}</span>`;
 
         return `
-    <div class="project-card" onclick="if(!isAdmin) window.location.href='project-detail.html?id=${p.id}'">
+    <div class="project-card ${p.isWIP ? 'wip-card' : ''}" ${cardOnClick}>
       <div class="card-actions">
         <button class="card-action-btn move-left" title="Move left" onclick="event.stopPropagation(); moveProjectLeft(${p.id})">
           <svg viewBox="0 0 24 24"><path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" /></svg>
@@ -111,7 +115,7 @@ function renderProjects() {
         </div>
         <p class="project-desc">${desc}</p>
         <p class="project-role">${role}</p>
-        <span class="view-more">${viewMore}</span>
+        ${footerText}
       </div>
     </div>
   `}).join('');
@@ -184,6 +188,11 @@ function startEditProject(id) {
     document.getElementById('p-link').value = project.linkTitle;
     document.getElementById('p-desc').value = project.desc;
     document.getElementById('p-role').value = project.role;
+    document.getElementById('p-wip').checked = !!project.isWIP;
+
+    const detailBtn = document.getElementById('btn-view-detail');
+    detailBtn.style.display = 'inline-block';
+    detailBtn.href = `project-detail.html?id=${id}`;
 }
 
 function saveAndRefresh(keepScroll = false) {
@@ -225,6 +234,7 @@ function setupAdmin() {
         document.querySelector('#project-modal .modal-title').innerText = 'Add New Project';
         document.querySelector('#project-modal button[type="submit"]').innerText = 'Create Project';
         document.getElementById('project-form').reset();
+        document.getElementById('btn-view-detail').style.display = 'none';
     };
 
     document.getElementById('cancel-password').onclick = () => {
@@ -258,6 +268,7 @@ function setupAdmin() {
             linkTitle: document.getElementById('p-link').value,
             desc: document.getElementById('p-desc').value,
             role: document.getElementById('p-role').value,
+            isWIP: document.getElementById('p-wip').checked,
             longDesc: editingProjectId ? (projects.find(p => p.id === editingProjectId)?.longDesc || '') : ''
         };
 

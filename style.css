@@ -2,7 +2,8 @@
 
 /* Color Palette Default Dark/Light & Red */
 :root {
-  --red: #e02828;
+  --red: #ff2a2a;
+  --yellow: #ffd700;
   --black: #080808;
   --white: #ffffff;
   --bg-dark: #121212;
@@ -388,6 +389,26 @@ strong {
   box-shadow: 0 10px 0 0 var(--black);
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
+}
+
+.project-card.wip-card {
+  cursor: default;
+}
+
+.view-more.wip-status {
+  color: var(--yellow);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.wip-group label {
+  color: var(--black);
+}
+
+.wip-group input[type="checkbox"]:checked + label {
+  color: var(--red);
+  font-weight: bold;
 }
 
 .project-card:hover {

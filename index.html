@@ -328,6 +328,11 @@
           <input type="text" id="p-link" placeholder="Project Type (e.g. Student Project)">
           <textarea id="p-desc" placeholder="Brief Description"></textarea>
           <textarea id="p-role" placeholder="Your Role"></textarea>
+          <div class="form-group wip-group" style="grid-column: span 2; display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 4px;">
+            <input type="checkbox" id="p-wip" style="width: 20px; height: 20px; cursor: pointer;">
+            <label for="p-wip" style="font-family: 'VT323', monospace; font-size: 20px; cursor: pointer;" data-i18n="wip_status">Working Progress</label>
+            <a id="btn-view-detail" href="#" target="_blank" class="btn-pixel small" style="margin-left: auto; display: none;" data-i18n="view_project_detail">View Project Page</a>
+          </div>
         </div>
         <div class="modal-actions">
           <button type="button" id="cancel-project" class="btn-pixel small">Cancel</button>

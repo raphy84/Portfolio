@@ -38,7 +38,10 @@ const translations = {
         admin_edit_project: "Edit Project",
         watch_youtube: "Watch on YouTube",
         view_itch: "View on Itch.io",
-        no_content: "No content yet."
+        no_content: "No content yet.",
+        wip_link: "Work in progress",
+        wip_status: "Working Progress",
+        view_project_detail: "View Project Page"
     },
     fr: {
         nav_home: "Accueil",
@@ -74,7 +77,10 @@ const translations = {
         admin_edit_project: "Modifier Projet",
         watch_youtube: "Regarder sur YouTube",
         view_itch: "Voir sur Itch.io",
-        no_content: "Pas encore de contenu."
+        no_content: "Pas encore de contenu.",
+        wip_link: "En cours de développement",
+        wip_status: "Work in Progress",
+        view_project_detail: "Voir la page du projet"
     }
 };
 
