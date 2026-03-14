@@ -124,6 +124,39 @@ strong {
   color: var(--red);
 }
 
+/* --- LANGUAGE SWITCHER --- */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  color: var(--white);
+  text-shadow: 2px 2px 0 var(--black);
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  color: var(--white);
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  transition: color 0.2s;
+}
+
+.lang-btn:hover,
+.lang-btn.active {
+  color: var(--red);
+}
+
+.lang-divider {
+  color: var(--grey);
+}
+
+
 /* --- MAIN BUTTONS --- */
 .btn {
   display: inline-flex;

@@ -10,35 +10,53 @@ const initialProjects = [
     {
         id: 1,
         name: "Synthwave Show Dawn",
+        name_fr: "Synthwave Show Dawn",
         image: "https://via.placeholder.com/400x250/080808/e02828?text=SYNTHWAVE+SHOW+DAWN",
         video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
         time: "1 Year",
+        time_fr: "1 An",
         linkTitle: "Student Project",
+        linkTitle_fr: "Projet Étudiant",
         desc: "Rhythmic Hero Shooter - 4v4 Multiplayer using Unreal Engine 5.",
+        desc_fr: "Hero Shooter Rythmique - Multijoueur 4v4 utilisant Unreal Engine 5.",
         role: "I worked as a Game Designer, Gameplay Balancer, Multiplayer Developer, and Lead Backup.",
-        longDesc: "Synthwave Show Dawn is a high-octane 4v4 multiplayer shooter that combines rhythmic mechanics with tactical gameplay. Developed in Unreal Engine 5, the project focused on synchronized audio-visual feedback and complex network architecture."
+        role_fr: "J'ai travaillé en tant que Game Designer, Équilibreur de Gameplay, Développeur Multijoueur et Lead Backup.",
+        longDesc: "Synthwave Show Dawn is a high-octane 4v4 multiplayer shooter that combines rhythmic mechanics with tactical gameplay. Developed in Unreal Engine 5, the project focused on synchronized audio-visual feedback and complex network architecture.",
+        longDesc_fr: "Synthwave Show Dawn est un jeu de tir multijoueur 4v4 énergique qui combine des mécaniques rythmiques avec un gameplay tactique. Développé sous Unreal Engine 5, le projet s'est concentré sur un retour audio-visuel synchronisé et une architecture réseau complexe."
     },
     {
         id: 2,
         name: "Linked",
+        name_fr: "Linked",
         image: "https://via.placeholder.com/400x250/080808/e02828?text=LINKED",
         video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
         time: "Game Jam",
+        time_fr: "Game Jam",
         linkTitle: "Itch.io",
+        linkTitle_fr: "Itch.io",
         desc: "Created during the Brassart Game Jam 2024.",
+        desc_fr: "Créé pendant la Brassart Game Jam 2024.",
         role: "Winner of the 1st Place! A short, intensive burst of creativity and prototyping under a tight deadline.",
-        longDesc: "Linked was the winner of the Brassart Game Jam 2024. It explores the concept of connection through physics-based puzzles and abstract narrative design. Built in just 48 hours."
+        role_fr: "Gagnant de la 1ère place ! Une courte explosion intensive de créativité et de prototypage sous une échéance serrée.",
+        longDesc: "Linked was the winner of the Brassart Game Jam 2024. It explores the concept of connection through physics-based puzzles and abstract narrative design. Built in just 48 hours.",
+        longDesc_fr: "Linked a remporté la Brassart Game Jam 2024. Il explore le concept de connexion à travers des énigmes basées sur la physique et un design narratif abstrait. Construit en seulement 48 heures."
     },
     {
         id: 3,
         name: "Babyboom",
+        name_fr: "Babyboom",
         image: "https://via.placeholder.com/400x250/080808/e02828?text=BABYBOOM",
         video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
         time: "Game Jam",
+        time_fr: "Game Jam",
         linkTitle: "Itch.io",
+        linkTitle_fr: "Itch.io",
         desc: "Created during the Brassart Game Jam 2025.",
+        desc_fr: "Créé pendant la Brassart Game Jam 2025.",
         role: "Awarded the 2nd Place. Focused on fun, immediate gameplay loops, and engaging mechanics.",
-        longDesc: "Babyboom took home 2nd place at the 2025 Brassart Game Jam. It's a chaotic action game featuring procedural generation and explosive chain reactions, developed with a focus on 'juice' and player feedback."
+        role_fr: "Récompensé par la 2ème place. Axé sur le plaisir, les boucles de gameplay immédiates et des mécaniques engageantes.",
+        longDesc: "Babyboom took home 2nd place at the 2025 Brassart Game Jam. It's a chaotic action game featuring procedural generation and explosive chain reactions, developed with a focus on 'juice' and player feedback.",
+        longDesc_fr: "Babyboom a remporté la 2ème place à la Brassart Game Jam 2025. C'est un jeu d'action chaotique avec génération procédurale et réactions en chaîne explosives, développé avec un accent sur le 'juice' et le ressenti joueur."
     }
 ];
 
@@ -57,7 +75,17 @@ function renderProjects() {
         document.body.classList.remove('admin-active');
     }
 
-    container.innerHTML = projects.map(p => `
+    const currentLang = localStorage.getItem('portfolio_lang') || 'en';
+
+    container.innerHTML = projects.map(p => {
+        const name = currentLang === 'fr' ? (p.name_fr || p.name) : p.name;
+        const time = currentLang === 'fr' ? (p.time_fr || p.time) : p.time;
+        const linkTitle = currentLang === 'fr' ? (p.linkTitle_fr || p.linkTitle) : p.linkTitle;
+        const desc = currentLang === 'fr' ? (p.desc_fr || p.desc) : p.desc;
+        const role = currentLang === 'fr' ? (p.role_fr || p.role) : p.role;
+        const viewMore = currentLang === 'fr' ? "Cliquez pour en voir plus" : "Click to view more";
+
+        return `
     <div class="project-card" onclick="if(!isAdmin) window.location.href='project-detail.html?id=${p.id}'">
       <div class="card-actions">
         <button class="card-action-btn move-left" title="Move left" onclick="event.stopPropagation(); moveProjectLeft(${p.id})">
@@ -76,17 +104,17 @@ function renderProjects() {
       <div class="project-image" style="background-image: url('${p.image}'); background-size: cover; background-position: center;">
       </div>
       <div class="project-info">
-        <h3 class="project-name">${p.name}</h3>
+        <h3 class="project-name">${name}</h3>
         <div class="project-meta">
-          <span class="meta-tag"><div class="icon-time"></div> ${p.time}</span>
-          <span class="meta-tag"><div class="icon-link"></div> ${p.linkTitle}</span>
+          <span class="meta-tag"><div class="icon-time"></div> ${time}</span>
+          <span class="meta-tag"><div class="icon-link"></div> ${linkTitle}</span>
         </div>
-        <p class="project-desc">${p.desc}</p>
-        <p class="project-role">${p.role}</p>
-        <span class="view-more">Click to view more</span>
+        <p class="project-desc">${desc}</p>
+        <p class="project-role">${role}</p>
+        <span class="view-more">${viewMore}</span>
       </div>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 // Carousel Logic

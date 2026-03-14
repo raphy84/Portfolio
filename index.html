@@ -20,12 +20,17 @@
   <nav class="navbar">
     <div class="logo">
       <div class="pixel-heart"></div>
+      <div class="lang-switcher">
+        <button class="lang-btn" onclick="updateLanguage('fr')">FR</button>
+        <span class="lang-divider">|</span>
+        <button class="lang-btn" onclick="updateLanguage('en')">EN</button>
+      </div>
     </div>
     <ul class="nav-links">
-      <li><a href="#home" class="active">Home</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#home" class="active" data-i18n="nav_home">Home</a></li>
+      <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+      <li><a href="#about" data-i18n="nav_about">About</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
     </ul>
   </nav>
 
@@ -34,27 +39,26 @@
     <!-- Left Pane: Dark theme, text content -->
     <div class="hero-left">
       <div class="hero-text-content">
-        <h1 class="hero-title">Raphaël Barrière</h1>
-        <h2 class="hero-subtitle">Game/System Designer</h2>
-
-        <p class="hero-desc">
+        <h1 class="hero-title" data-i18n="hero_title">Raphaël Barrière</h1>
+        <h2 class="hero-subtitle" data-i18n="hero_subtitle">Game/System Designer</h2>
+<p class="hero-desc" data-i18n="hero_desc_1">
           Hi, and welcome to my website! I'm Raphaël Barrière, a 20 year old <strong>system designer</strong>, and free
           as the air. I’m
           currently studying at the Brassart campus in Aix-en-Provence, in the Game Design department.
         </p>
-        <p class="hero-desc">
+        <p class="hero-desc" data-i18n="hero_desc_2">
           I’m <strong>joyful</strong>, <strong>imaginative</strong>, and <strong>ambitious</strong>
           <strong>person</strong>. I strive to create engaging
           experiences by focusing first on the <strong>fun</strong> the player will experience and the
           <strong>originality</strong> of the mechanics.
         </p>
-        <p class="hero-desc">
+        <p class="hero-desc" data-i18n="hero_desc_3">
           I'm currently a game design student looking for <strong>new adventures and projects</strong>!
         </p>
 
         <div class="hero-buttons">
           <a href="Ressources/Raphaël%20Barrière%20CV%202025.pdf" target="_blank" class="btn btn-primary"
-            title="Download CV">Resume</a>
+            title="Download CV" data-i18n="resume">Resume</a>
           <a href="mailto:raphbar.pro@gmail.com" class="btn btn-icon" title="Email">
             <svg style="width:24px; color:black;" viewBox="0 0 24 24" fill="currentColor">
               <path
@@ -93,7 +97,7 @@
 
   <!-- Projects Section -->
   <section id="projects" class="projects-section">
-    <h2 class="section-title text-red">Projects</h2>
+    <h2 class="section-title text-red" data-i18n="section_projects">Projects</h2>
 
     <div class="carousel-container" style="overflow: visible;">
       <button id="prev-project" class="carousel-arrow prev">
@@ -112,20 +116,20 @@
         </svg>
       </button>
     </div>
-    <p class="projects-disclaimer">
+    <p class="projects-disclaimer" data-i18n="projects_disclaimer">
       Here is a selection of my best projects. To see all my prototypes and other creations, visit 
       <a href="https://blackstarstudio.itch.io/" target="_blank">my Itch.io</a>!
     </p>
 
     <!-- Admin: Modify Projects Button -->
-    <button id="admin-modify-projects" class="invisible-admin-btn" title="Admin Login">
+    <button id="admin-modify-projects" class="invisible-admin-btn" title="Admin Login" data-i18n="admin_modify">
       Modify Projects
     </button>
 
     <div style="text-align: center; margin-top: 40px; display: flex; justify-content: center; gap: 20px;">
       <div id="add-project-wrapper">
         <button id="admin-add-project-new" class="btn btn-outline"
-          style="font-family: 'Press Start 2P', cursive; font-size: 14px; color: var(--black); border-color: var(--black); box-shadow: 4px 4px 0 0 var(--red);">
+          style="font-family: 'Press Start 2P', cursive; font-size: 14px; color: var(--black); border-color: var(--black); box-shadow: 4px 4px 0 0 var(--red);" data-i18n="admin_add">
           + Add New Project
         </button>
       </div>
@@ -137,7 +141,7 @@
 
   <!-- About Section -->
   <section id="about" class="about-section">
-    <h2 class="section-title text-black">About me</h2>
+    <h2 class="section-title text-black" data-i18n="section_about">About me</h2>
 
     <div class="about-content">
 
@@ -160,16 +164,16 @@
         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
           <!-- System Design Card -->
           <div class="skill-card" style="flex: 1.2; min-width: 300px;">
-            <h3 class="skill-title">System Design</h3>
-            <p>I specialize in <strong>game systems</strong>, <strong>3Cs</strong>, and <strong>balancing
+            <h3 class="skill-title" data-i18n="skill_system">System Design</h3>
+            <p data-i18n="skill_system_desc">I specialize in <strong>game systems</strong>, <strong>3Cs</strong>, and <strong>balancing
                 mechanics</strong>. I focus on creating <strong>deep, engaging player experiences</strong> through
               robust design documentation and iteration.</p>
           </div>
 
           <!-- Management Card -->
           <div class="skill-card" style="flex: 1; min-width: 300px;">
-            <h3 class="skill-title">Management</h3>
-            <p>High capacity in <strong>project management</strong>, <strong>team coordination</strong>, and
+            <h3 class="skill-title" data-i18n="skill_management">Management</h3>
+            <p data-i18n="skill_management_desc">High capacity in <strong>project management</strong>, <strong>team coordination</strong>, and
               <strong>tracking progress</strong>.
             </p>
             <div class="skill-icons-grid">
@@ -190,7 +194,7 @@
         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
           <!-- Game Engines Card -->
           <div class="skill-card compact-card" style="flex: 1; min-width: 250px;">
-            <h3 class="skill-title" style="font-size: 18px;">Game Engines</h3>
+            <h3 class="skill-title" style="font-size: 18px;" data-i18n="skill_engines">Game Engines</h3>
             <div class="skill-icons-grid">
               <div class="skill-icon-item">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Godot_icon.svg" alt="Godot"
@@ -212,7 +216,7 @@
 
           <!-- Graphics Card -->
           <div class="skill-card compact-card" style="flex: 1; min-width: 250px;">
-            <h3 class="skill-title" style="font-size: 18px;">Imaging & Graphics</h3>
+            <h3 class="skill-title" style="font-size: 18px;" data-i18n="skill_graphics">Imaging & Graphics</h3>
             <div class="skill-icons-grid">
               <div class="skill-icon-item">
                 <img src="Ressources/Aseprite-Logo.png" alt="Aseprite" class="skill-icon-img">
@@ -237,19 +241,19 @@
 
     <!-- Personal Statement -->
     <p
-      style="text-align: center; font-size: 26px; margin-top: 60px; color: var(--black); max-width: 1000px; margin-left: auto; margin-right: auto; line-height: 1.4;">
+      style="text-align: center; font-size: 26px; margin-top: 60px; color: var(--black); max-width: 1000px; margin-left: auto; margin-right: auto; line-height: 1.4;" data-i18n="personal_statement">
       I am curious to discover new experiences and ready to go anywhere for new adventures.
     </p>
 
     <!-- Merged Interests Section -->
     <div class="hobbies-box" style="margin-top: 60px;">
 
-      <h2 class="hobbies-title">Interests</h2>
+      <h2 class="hobbies-title" data-i18n="interests_title">Interests</h2>
 
       <ul class="hobbies-list">
-        <li>- <span class="interest-category">Sports | </span> Hiking, Skiing, Kungfu</li>
-        <li>- <span class="interest-category">Creative | </span> Pixel Art, Woodworking, Game Jam</li>
-        <li>- <span class="interest-category">Favorite Games | </span> Deep Rock Galactic, Star Citizen, Crawl</li>
+        <li>- <span class="interest-category" data-i18n="interest_sports">Sports | </span> Hiking, Skiing, Kungfu</li>
+        <li>- <span class="interest-category" data-i18n="interest_creative">Creative | </span> Pixel Art, Woodworking, Game Jam</li>
+        <li>- <span class="interest-category" data-i18n="interest_games">Favorite Games | </span> Deep Rock Galactic, Star Citizen, Crawl</li>
       </ul>
 
 
@@ -263,10 +267,10 @@
   <section id="contact" class="contact-section">
     <div class="contact-header">
       <div class="pixel-heart bounce"></div>
-      <h2 class="section-title text-red" style="margin-top: 20px;">Contact me</h2>
+      <h2 class="section-title text-red" style="margin-top: 20px;" data-i18n="section_contact">Contact me</h2>
     </div>
 
-    <p class="contact-desc">Feel free to contact me, I will try to answer as soon as possible.</p>
+    <p class="contact-desc" data-i18n="contact_desc">Feel free to contact me, I will try to answer as soon as possible.</p>
 
     <div class="contact-links-grid">
       <a href="mailto:raphbar.pro@gmail.com" class="contact-big-btn">
@@ -298,7 +302,7 @@
       </a>
     </div>
 
-    <p class="contact-footer">Thanks you for visiting!</p>
+    <p class="contact-footer" data-i18n="thanks">Thanks you for visiting!</p>
   </section>
 
   <!-- Admin Modals -->
@@ -334,6 +338,7 @@
   </div>
 
   <script src="projects.js"></script>
+  <script src="translations.js"></script>
   <script>
     // Navigation active state and scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
