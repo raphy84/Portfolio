@@ -278,6 +278,28 @@ function exportProjectData() {
     document.body.removeChild(textArea);
 }
 
+async function pushToDatabase() {
+    if (!supabaseClient) {
+        alert("Supabase is not connected. Check your API keys in projects.js.");
+        return;
+    }
+
+    const confirmPush = confirm("This will overwrite the database with your current local projects. Continue?");
+    if (!confirmPush) return;
+
+    try {
+        const { error } = await supabaseClient
+            .from('projects')
+            .upsert(projects);
+
+        if (error) throw error;
+        alert("🚀 Data successfully pushed to Supabase! Everyone will now see your changes.");
+    } catch (err) {
+        console.error("Manual push failed:", err.message);
+        alert("❌ Error: " + err.message + "\n\nMake sure you have created the 'projects' table in Supabase.");
+    }
+}
+
 // Admin Logic
 function setupAdmin() {
     const addBtn = document.getElementById('admin-add-project-new');

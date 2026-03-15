@@ -296,9 +296,10 @@
                 <div id="rich-editor" contenteditable="true"></div>
 
                 <div style="display: flex; gap: 10px; justify-content: flex-end;">
-                    <button id="export-on-detail" class="btn-pixel small" onclick="exportProjectData()" style="background: var(--black); color: white;">↑ Export All Data</button>
                     <button id="cancel-edit" class="btn-pixel small">Cancel</button>
                     <button id="save-edit" class="btn-pixel small">Save Content</button>
+                    <button onclick="pushToDatabase()" class="btn-pixel small" style="background: #28a745; color: white;">↑ Push to DB</button>
+                    <button onclick="exportProjectData()" class="btn-pixel small" style="background: #333; color: white;">↑ Export All</button>
                 </div>
             </div>
 
@@ -372,6 +373,34 @@
             }
         }
 
+
+        async function pushToDatabase() {
+            if (!supabaseClient) {
+                alert("Supabase is not connected. Check your API keys in the script.");
+                return;
+            }
+
+            const allProjects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+            if (allProjects.length === 0) {
+                alert("No projects found to push.");
+                return;
+            }
+
+            const confirmPush = confirm("This will overwrite the database with all your current local projects. Continue?");
+            if (!confirmPush) return;
+
+            try {
+                const { error } = await supabaseClient
+                    .from('projects')
+                    .upsert(allProjects);
+
+                if (error) throw error;
+                alert("🚀 Data successfully pushed to Supabase from Detail Page!");
+            } catch (err) {
+                console.error("Manual push failed:", err.message);
+                alert("❌ Error: " + err.message);
+            }
+        }
 
         function exportProjectData() {
             const projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
