@@ -9,6 +9,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Press+Start+2P&family=VT323&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         .detail-section {
             min-height: 100vh;
@@ -328,6 +329,14 @@
     </div>
 
     <script>
+        // Supabase Configuration
+        const SUPABASE_URL = "https://uhbauyqdrqinpggxgazr.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_secret_aIHo6VPUuJfbxbDxDVokeQ_hfd2I5bI";
+
+        const supabase = (typeof supabase !== 'undefined') 
+            ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) 
+            : null;
+
         const PASSWORD = "admin123";
         let currentProject = null;
 
@@ -536,7 +545,7 @@
 
             document.getElementById('cancel-edit').onclick = () => editForm.classList.remove('active');
 
-            document.getElementById('save-edit').onclick = () => {
+            document.getElementById('save-edit').onclick = async () => {
                 const ytInput = document.getElementById('edit-video').value.trim();
                 const itchInput = document.getElementById('edit-itch').value.trim();
                 const websiteInput = document.getElementById('edit-website').value.trim();
@@ -550,6 +559,19 @@
                 if (index > -1) {
                     allProjects[index] = currentProject;
                     localStorage.setItem('portfolio_projects', JSON.stringify(allProjects));
+                }
+
+                // Sync to Supabase if configured
+                if (typeof supabase !== 'undefined' && supabase) {
+                    try {
+                        const { error } = await supabase
+                            .from('projects')
+                            .upsert(allProjects);
+                        if (error) throw error;
+                        console.log("Details synced to Supabase!");
+                    } catch (err) {
+                        console.error("Supabase sync failed:", err.message);
+                    }
                 }
 
                 renderProject();

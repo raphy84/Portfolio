@@ -1,11 +1,14 @@
-/**
- * projects.js
- * Handles dynamic project management, carousel logic and admin features.
- */
+// Supabase Configuration
+const SUPABASE_URL = "https://uhbauyqdrqinpggxgazr.supabase.co";
+const SUPABASE_ANON_KEY = "sb_secret_aIHo6VPUuJfbxbDxDVokeQ_hfd2I5bI";
+
+const supabase = (typeof supabase !== 'undefined') 
+    ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) 
+    : null;
 
 const PASSWORD = "admin123";
 
-// Initial project data
+// Initial project data (used as fallback or for export)
 const initialProjects = [
     {
         id: 1,
@@ -195,10 +198,36 @@ function startEditProject(id) {
     detailBtn.href = `project-detail.html?id=${id}`;
 }
 
-function saveAndRefresh(keepScroll = false) {
+async function syncProjectsWithSupabase() {
+    if (!supabase) {
+        console.log("Supabase not configured. Using local data.");
+        return;
+    }
+
+    try {
+        const { data, error } = await supabase
+            .from('projects')
+            .select('*')
+            .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+            projects = data;
+            localStorage.setItem('portfolio_projects', JSON.stringify(projects));
+            renderProjects();
+            console.log("Projects synced from Supabase");
+        }
+    } catch (err) {
+        console.error("Error syncing with Supabase:", err.message);
+    }
+}
+
+async function saveAndRefresh(keepScroll = false) {
     const container = document.getElementById('projects-carousel');
     const scrollPos = (container && keepScroll) ? container.scrollLeft : 0;
 
+    // Local save
     localStorage.setItem('portfolio_projects', JSON.stringify(projects));
     renderProjects();
 
@@ -207,8 +236,24 @@ function saveAndRefresh(keepScroll = false) {
         if (newContainer) newContainer.scrollLeft = scrollPos;
     }
 
-    if (isAdmin) {
-        console.log("Changes saved locally. Use 'Export' to get code for permanent update.");
+    // Remote save (Supabase)
+    if (isAdmin && supabase) {
+        try {
+            // This is a simple implementation: we push the whole projects array
+            // In a real app, you'd update specific rows, but for a small portfolio this is fine.
+            // We use 'upsert' to update existing or insert new ones.
+            const { error } = await supabase
+                .from('projects')
+                .upsert(projects);
+
+            if (error) throw error;
+            console.log("Changes synced to Supabase!");
+        } catch (err) {
+            console.error("Failed to sync to Supabase:", err.message);
+            alert("Local save successful, but Sync to Database failed: " + err.message);
+        }
+    } else if (isAdmin) {
+        console.log("Changes saved locally. Use 'Export' for permanent update (Supabase not connected).");
     }
 }
 
@@ -318,6 +363,7 @@ function setupAdmin() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    syncProjectsWithSupabase(); // Load from DB
     renderProjects();
     setupCarousel();
     setupAdmin();
