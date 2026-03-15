@@ -1184,6 +1184,7 @@ strong {
   display: block;
 }
 
+#add-project-wrapper,
 #export-project-wrapper {
   display: none;
 }
