@@ -2,7 +2,7 @@
 const SUPABASE_URL = "https://uhbauyqdrqinpggxgazr.supabase.co";
 const SUPABASE_ANON_KEY = "sb_secret_aIHo6VPUuJfbxbDxDVokeQ_hfd2I5bI";
 
-const supabase = (typeof supabase !== 'undefined') 
+const supabaseClient = (typeof supabase !== 'undefined') 
     ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) 
     : null;
 
@@ -199,13 +199,13 @@ function startEditProject(id) {
 }
 
 async function syncProjectsWithSupabase() {
-    if (!supabase) {
+    if (!supabaseClient) {
         console.log("Supabase not configured. Using local data.");
         return;
     }
 
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('projects')
             .select('*')
             .order('id', { ascending: true });
@@ -237,12 +237,9 @@ async function saveAndRefresh(keepScroll = false) {
     }
 
     // Remote save (Supabase)
-    if (isAdmin && supabase) {
+    if (isAdmin && supabaseClient) {
         try {
-            // This is a simple implementation: we push the whole projects array
-            // In a real app, you'd update specific rows, but for a small portfolio this is fine.
-            // We use 'upsert' to update existing or insert new ones.
-            const { error } = await supabase
+            const { error } = await supabaseClient
                 .from('projects')
                 .upsert(projects);
 
@@ -289,14 +286,18 @@ function setupAdmin() {
 
     // Secret shortcut listener: Alt + Shift + Enter
     document.addEventListener('keydown', (e) => {
-        if (e.altKey && e.shiftKey && e.code === 'Enter') {
+        // Use e.key for broad compatibility
+        if (e.altKey && e.shiftKey && e.key === 'Enter') {
+            e.preventDefault(); // Stop default browser behavior
             if (!isAdmin) {
                 pwdModal.classList.add('active');
+                document.getElementById('admin-password').focus();
             } else {
                 isAdmin = false;
                 editingProjectId = null;
                 renderProjects();
                 console.log("Admin mode deactivated");
+                alert("Mode administrateur désactivé");
             }
         }
     });

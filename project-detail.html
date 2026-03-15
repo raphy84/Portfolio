@@ -333,7 +333,7 @@
         const SUPABASE_URL = "https://uhbauyqdrqinpggxgazr.supabase.co";
         const SUPABASE_ANON_KEY = "sb_secret_aIHo6VPUuJfbxbDxDVokeQ_hfd2I5bI";
 
-        const supabase = (typeof supabase !== 'undefined') 
+        const supabaseClient = (typeof supabase !== 'undefined') 
             ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) 
             : null;
 
@@ -499,12 +499,16 @@
 
             // Secret shortcut listener: Alt + Shift + Enter
             document.addEventListener('keydown', (e) => {
-                if (e.altKey && e.shiftKey && e.code === 'Enter') {
+                // Use e.key for broad compatibility
+                if (e.altKey && e.shiftKey && e.key === 'Enter') {
+                    e.preventDefault(); // Stop default browser behavior
                     if (!editForm.classList.contains('active')) {
                         pwdModal.classList.add('active');
+                        document.getElementById('admin-password').focus();
                     } else {
                         editForm.classList.remove('active');
                         console.log("Admin mode deactivated");
+                        alert("Mode édition désactivé");
                     }
                 }
             });
@@ -562,9 +566,9 @@
                 }
 
                 // Sync to Supabase if configured
-                if (typeof supabase !== 'undefined' && supabase) {
+                if (supabaseClient) {
                     try {
-                        const { error } = await supabase
+                        const { error } = await supabaseClient
                             .from('projects')
                             .upsert(allProjects);
                         if (error) throw error;
