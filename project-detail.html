@@ -198,6 +198,15 @@
             display: block;
         }
 
+        /* Styling for links in editor and detail content */
+        #rich-editor a, 
+        .detail-content a {
+            color: var(--red);
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+
         @media (max-width: 768px) {
             .detail-header {
                 flex-direction: column-reverse;
@@ -282,7 +291,9 @@
                     <button class="toolbar-btn" onclick="formatDoc('justifyCenter')">CENTER</button>
                     <button class="toolbar-btn" onclick="formatDoc('justifyRight')">RIGHT</button>
                     <button class="toolbar-btn" onclick="formatDoc('justifyFull')">JUSTIFY</button>
+                    <button class="toolbar-btn" onclick="insertLink()">LINK</button>
                     <button class="toolbar-btn" onclick="insertImage()">+ IMAGE/GIF</button>
+
                 </div>
 
                 <div id="rich-editor" contenteditable="true"></div>
@@ -333,6 +344,28 @@
                 formatDoc('insertHTML', `<div class="detail-img-wrapper"><img src="${url}" style="max-width:100%;height:auto;display:block;border-radius:10px;"></div><p><br></p>`);
             }
         }
+
+        function insertLink() {
+            const url = prompt("Enter the link URL (e.g., https://google.com):");
+            if (url) {
+                // Ensure the URL has a protocol
+                let formattedUrl = url;
+                if (!/^https?:\/\//i.test(url)) {
+                    formattedUrl = 'https://' + url;
+                }
+                formatDoc('createLink', formattedUrl);
+                
+                // Optional: ensure target="_blank" for external links
+                const selection = window.getSelection();
+                if (selection.rangeCount > 0) {
+                    const parent = selection.anchorNode.parentNode;
+                    if (parent.nodeName === 'A') {
+                        parent.target = '_blank';
+                    }
+                }
+            }
+        }
+
 
         function wrapImageIfNecessary(img) {
             if (img.classList.contains('wrapped-processed') || img.closest('.detail-img-wrapper')) return;
