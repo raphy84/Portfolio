@@ -1179,12 +1179,13 @@ strong {
   height: 18px;
 }
 
-#add-project-wrapper {
-  display: none;
+.admin-active #add-project-wrapper,
+.admin-active #export-project-wrapper {
+  display: block;
 }
 
-.admin-active #add-project-wrapper {
-  display: block;
+#export-project-wrapper {
+  display: none;
 }
 
 .invisible-admin-btn {

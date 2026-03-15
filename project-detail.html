@@ -299,6 +299,7 @@
                 <div id="rich-editor" contenteditable="true"></div>
 
                 <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button id="export-on-detail" class="btn-pixel small" onclick="exportProjectData()" style="background: var(--black); color: white;">↑ Export All Data</button>
                     <button id="cancel-edit" class="btn-pixel small">Cancel</button>
                     <button id="save-edit" class="btn-pixel small">Save Content</button>
                 </div>
@@ -366,6 +367,29 @@
             }
         }
 
+
+        function exportProjectData() {
+            const projects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
+            if (projects.length === 0) {
+                alert("No project data found to export.");
+                return;
+            }
+            const dataStr = JSON.stringify(projects, null, 4);
+            const codeTemplate = `// Copiez ce code et remplacez le tableau initialProjects dans projects.js\nconst initialProjects = ${dataStr};`;
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = codeTemplate;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                alert("Données exportées et copiées dans le presse-papier !\n\nMaintenant, ouvrez 'projects.js' et remplacez le tableau 'initialProjects' par ce que vous venez de copier.");
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                prompt("Copiez les données ci-dessous :", codeTemplate);
+            }
+            document.body.removeChild(textArea);
+        }
 
         function wrapImageIfNecessary(img) {
             if (img.classList.contains('wrapped-processed') || img.closest('.detail-img-wrapper')) return;
