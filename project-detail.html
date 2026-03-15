@@ -22,22 +22,43 @@
         }
 
         .detail-header {
-            margin-bottom: 40px;
-            text-align: center;
+            margin-bottom: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            text-align: left;
+        }
+
+        .header-text-content {
+            flex: 1;
+        }
+
+        .header-image-small {
+            max-width: 200px;
+            max-height: 200px;
+            width: auto;
+            height: auto;
+            border-radius: 20px;
+            flex-shrink: 0;
+            border: 4px solid var(--black);
+            box-shadow: 8px 8px 0 0 var(--red);
+            display: block;
         }
 
         .detail-title {
             font-family: 'Press Start 2P', cursive;
-            font-size: 36px;
+            font-size: 32px;
             color: var(--red);
             margin-bottom: 20px;
+            text-align: left;
         }
 
         .detail-meta {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             gap: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 0;
         }
 
         .detail-links {
@@ -168,8 +189,24 @@
         }
 
         @media (max-width: 768px) {
+            .detail-header {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 20px;
+            }
+
             .detail-title {
                 font-size: 24px;
+                text-align: center;
+            }
+
+            .detail-meta {
+                justify-content: center;
+            }
+
+            .header-image-small {
+                max-width: 150px;
+                max-height: 150px;
             }
 
             .detail-content {
@@ -336,11 +373,14 @@
 
             container.innerHTML = `
         <div class="detail-header">
-          <h1 class="detail-title">${name}</h1>
-          <div class="detail-meta">
-            <span class="meta-tag" style="background: var(--bg-dark); color: white;">${time}</span>
-            <span class="meta-tag" style="background: var(--red); color: white;">${linkTitle}</span>
+          <div class="header-text-content">
+            <h1 class="detail-title">${name}</h1>
+            <div class="detail-meta">
+              <span class="meta-tag" style="background: var(--bg-dark); color: white;">${time}</span>
+              <span class="meta-tag" style="background: var(--red); color: white;">${linkTitle}</span>
+            </div>
           </div>
+          <img src="${currentProject.image}" alt="${name}" class="header-image-small">
         </div>
 
         <div class="detail-content">
