@@ -260,11 +260,7 @@
 
     <section class="detail-section">
         <div class="detail-container">
-            <div class="admin-controls">
-                <button id="edit-project-btn" class="invisible-admin-btn" title="Admin Login" style="right: 0; left: auto;" data-i18n="admin_edit_project">
-                    Edit Project
-                </button>
-            </div>
+            <!-- Admin controls hidden. Shortcut: Alt + Shift + Enter -->
 
             <div id="edit-form" class="edit-form-container">
                 <h3 style="font-family: 'Press Start 2P', cursive; font-size: 16px; margin-bottom: 20px;">Rich Text
@@ -492,7 +488,17 @@
             const editForm = document.getElementById('edit-form');
             const editor = document.getElementById('rich-editor');
 
-            editBtn.onclick = () => pwdModal.classList.add('active');
+            // Secret shortcut listener: Alt + Shift + Enter
+            document.addEventListener('keydown', (e) => {
+                if (e.altKey && e.shiftKey && e.code === 'Enter') {
+                    if (!editForm.classList.contains('active')) {
+                        pwdModal.classList.add('active');
+                    } else {
+                        editForm.classList.remove('active');
+                        console.log("Admin mode deactivated");
+                    }
+                }
+            });
 
             document.getElementById('cancel-password').onclick = () => {
                 pwdModal.classList.remove('active');

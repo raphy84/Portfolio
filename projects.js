@@ -238,22 +238,25 @@ function exportProjectData() {
 
 // Admin Logic
 function setupAdmin() {
-    const modifyBtn = document.getElementById('admin-modify-projects');
     const addBtn = document.getElementById('admin-add-project-new');
     const pwdModal = document.getElementById('password-modal');
     const projModal = document.getElementById('project-modal');
 
-    if (!modifyBtn) return;
-
-    modifyBtn.onclick = () => {
-        if (!isAdmin) {
-            pwdModal.classList.add('active');
-        } else {
-            isAdmin = false;
-            editingProjectId = null;
-            renderProjects();
+    // Secret shortcut listener: Alt + Shift + Enter
+    document.addEventListener('keydown', (e) => {
+        if (e.altKey && e.shiftKey && e.code === 'Enter') {
+            if (!isAdmin) {
+                pwdModal.classList.add('active');
+            } else {
+                isAdmin = false;
+                editingProjectId = null;
+                renderProjects();
+                console.log("Admin mode deactivated");
+            }
         }
-    };
+    });
+
+    if (!addBtn) return;
 
     addBtn.onclick = () => {
         editingProjectId = null;
