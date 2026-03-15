@@ -107,6 +107,16 @@
             box-shadow: 10px 10px 0 0 var(--red);
         }
 
+        .detail-link-btn.website {
+            background: #3498db;
+            color: var(--white);
+            box-shadow: 6px 6px 0 0 var(--black);
+        }
+
+        .detail-link-btn.website:hover {
+            box-shadow: 10px 10px 0 0 var(--black);
+        }
+
         .detail-content {
             font-size: 24px;
             line-height: 1.6;
@@ -261,6 +271,11 @@
                     placeholder="https://itch.io/..."
                     style="width: 100%; padding: 10px; margin-bottom: 15px; border: 2px solid black; border-radius: 8px; box-sizing: border-box;">
 
+                <label style="display: block; font-weight: bold; margin-bottom: 5px;">Lien Web Site</label>
+                <input type="text" id="edit-website"
+                    placeholder="https://..."
+                    style="width: 100%; padding: 10px; margin-bottom: 15px; border: 2px solid black; border-radius: 8px; box-sizing: border-box;">
+
                 <div class="editor-toolbar">
                     <button class="toolbar-btn" onclick="formatDoc('forecolor', 'red')">RED TEXT</button>
                     <button class="toolbar-btn" onclick="formatDoc('justifyLeft')">LEFT</button>
@@ -350,6 +365,7 @@
             const currentLang = localStorage.getItem('portfolio_lang') || 'en';
             const watchYTText = currentLang === 'fr' ? "Regarder sur YouTube" : "Watch on YouTube";
             const viewItchText = currentLang === 'fr' ? "Voir sur Itch.io" : "View on Itch.io";
+            const viewWebsiteText = currentLang === 'fr' ? "Voir le Site Web" : "View Web Site";
 
             const ytBtn = ytUrl
                 ? `<a href="${ytUrl}" target="_blank" class="detail-link-btn youtube">
@@ -362,6 +378,14 @@
                 ? `<a href="${itchUrl}" target="_blank" class="detail-link-btn itch">
                     <img src="Ressources/Itch.ioLogo.png" alt="Itch.io" style="width: 22px; height: 22px; object-fit: contain; filter: brightness(0) invert(1);">
                     ${viewItchText}
+                   </a>`
+                : '';
+
+            const websiteUrl = currentProject.websiteUrl || '';
+            const websiteBtn = websiteUrl
+                ? `<a href="${websiteUrl}" target="_blank" class="detail-link-btn website">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    ${viewWebsiteText}
                    </a>`
                 : '';
 
@@ -390,6 +414,7 @@
         <div class="detail-links">
           ${ytBtn}
           ${itchBtn}
+          ${websiteBtn}
         </div>
       `;
         }
@@ -422,7 +447,9 @@
                 if (input.value === PASSWORD) {
                     pwdModal.classList.remove('active');
                     input.value = '';
+                    document.getElementById('edit-video').value = currentProject.video || '';
                     document.getElementById('edit-itch').value = currentProject.itchUrl || '';
+                    document.getElementById('edit-website').value = currentProject.websiteUrl || '';
                     editor.innerHTML = currentProject.longDesc || "";
                     editForm.classList.add('active');
 
@@ -449,8 +476,10 @@
             document.getElementById('save-edit').onclick = () => {
                 const ytInput = document.getElementById('edit-video').value.trim();
                 const itchInput = document.getElementById('edit-itch').value.trim();
+                const websiteInput = document.getElementById('edit-website').value.trim();
                 currentProject.video = ytInput;
                 currentProject.itchUrl = itchInput;
+                currentProject.websiteUrl = websiteInput;
                 currentProject.longDesc = editor.innerHTML;
 
                 const allProjects = JSON.parse(localStorage.getItem('portfolio_projects')) || [];
