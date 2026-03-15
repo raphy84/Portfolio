@@ -282,6 +282,24 @@
             }
         }
 
+        function wrapImageIfNecessary(img) {
+            if (img.classList.contains('wrapped-processed') || img.closest('.detail-img-wrapper')) return;
+            img.classList.add('wrapped-processed');
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'detail-img-wrapper';
+            
+            img.style.maxWidth = '100%';
+            img.style.height = 'auto';
+            img.style.display = 'block';
+            img.style.borderRadius = '10px';
+            
+            if (img.parentNode) {
+                img.parentNode.insertBefore(wrapper, img);
+                wrapper.appendChild(img);
+            }
+        }
+
         function renderProject() {
             if (!currentProject) return;
 
@@ -364,10 +382,23 @@
                 if (input.value === PASSWORD) {
                     pwdModal.classList.remove('active');
                     input.value = '';
-                    document.getElementById('edit-video').value = currentProject.video || '';
                     document.getElementById('edit-itch').value = currentProject.itchUrl || '';
                     editor.innerHTML = currentProject.longDesc || "";
                     editForm.classList.add('active');
+
+                    // Setup MutationObserver for pasted images
+                    const observer = new MutationObserver((mutations) => {
+                        mutations.forEach(mutation => {
+                            mutation.addedNodes.forEach(node => {
+                                if (node.nodeName === 'IMG') {
+                                    wrapImageIfNecessary(node);
+                                } else if (node.querySelectorAll) {
+                                    node.querySelectorAll('img').forEach(wrapImageIfNecessary);
+                                }
+                            });
+                        });
+                    });
+                    observer.observe(editor, { childList: true, subtree: true });
                 } else {
                     alert('Incorrect Password');
                 }
