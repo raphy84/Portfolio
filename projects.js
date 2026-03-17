@@ -127,7 +127,7 @@ function renderProjects() {
 // Carousel Logic
 function getScrollAmount() {
     const container = document.getElementById('projects-carousel');
-    return container ? container.clientWidth + 30 : 1230;
+    return container ? container.clientWidth : 1230;
 }
 
 function setupCarousel() {
@@ -208,7 +208,7 @@ async function syncProjectsWithSupabase() {
         const { data, error } = await supabaseClient
             .from('projects')
             .select('*')
-            .order('id', { ascending: true });
+            .order('display_order', { ascending: true });
 
         if (error) throw error;
 
@@ -226,6 +226,9 @@ async function syncProjectsWithSupabase() {
 async function saveAndRefresh(keepScroll = false) {
     const container = document.getElementById('projects-carousel');
     const scrollPos = (container && keepScroll) ? container.scrollLeft : 0;
+
+    // Assign display_order based on current array position
+    projects = projects.map((p, index) => ({ ...p, display_order: index }));
 
     // Local save
     localStorage.setItem('portfolio_projects', JSON.stringify(projects));

@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Color Palette Default Dark/Light & Red */
 :root {
   --red: #ff2a2a;
@@ -258,7 +262,7 @@ strong {
 .icon-link {
   width: 16px;
   height: 16px;
-  background-color: var(--white);
+  background-color: var(--black);
   clip-path: polygon(10% 0, 90% 0, 100% 30%, 100% 70%, 90% 100%, 10% 100%, 0 70%, 0 30%);
   display: inline-block;
   margin-right: 8px;
@@ -380,13 +384,14 @@ strong {
 .project-card {
   width: 380px;
   flex-shrink: 0;
-  background-color: var(--red);
+  background-color: var(--white);
+  border: 6px solid var(--black);
   border-radius: 40px;
   overflow: hidden;
-  color: var(--white);
+  color: var(--black);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 0 0 var(--black);
+  box-shadow: 10px 10px 0 0 var(--black);
   transition: transform 0.2s, box-shadow 0.2s;
   cursor: pointer;
 }
@@ -412,8 +417,8 @@ strong {
 }
 
 .project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 0 0 var(--black);
+  transform: translate(-4px, -4px);
+  box-shadow: 15px 15px 0 0 var(--red);
 }
 
 .project-image {
@@ -444,6 +449,7 @@ strong {
   margin: 0 0 15px 0;
   text-align: center;
   line-height: 1.4;
+  color: var(--red);
 }
 
 .project-meta {
@@ -454,12 +460,14 @@ strong {
 }
 
 .meta-tag {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--bg-light);
+  border: 2px solid var(--black);
   padding: 5px 15px;
   border-radius: 20px;
   font-size: 18px;
   display: inline-flex;
   align-items: center;
+  color: var(--black);
 }
 
 .project-desc {
@@ -474,13 +482,14 @@ strong {
   font-style: italic;
   margin-bottom: 30px;
   flex-grow: 1;
+  color: var(--grey);
 }
 
 .view-more {
   text-align: center;
   font-family: 'Press Start 2P', cursive;
   font-size: 12px;
-  color: var(--white);
+  color: var(--red);
   text-decoration: none;
   opacity: 0.8;
   transition: opacity 0.2s;
@@ -873,10 +882,10 @@ strong {
   gap: 30px;
   overflow-x: hidden; /* Prevent peeking, lock to exact width */
   overflow-y: hidden;
-  padding: 20px 0 40px 0;
+  padding: 20px 20px 40px 10px;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-  width: 1200px; /* Exactly 3 cards (3*380) + 2 gaps (2*30) */
+  width: 1230px; /* 3*380 + 2*30 + 30px for shadows/padding */
   flex: none;
   flex-wrap: nowrap;
   /* Hide scrollbar IE/Edge */
@@ -887,13 +896,13 @@ strong {
 
 @media (max-width: 1440px) {
   .projects-carousel {
-    width: 790px; /* Exactly 2 cards (2*380) + gap (30) */
+    width: 820px; /* 2*380 + 30 + 30px for shadows/padding */
   }
 }
 
 @media (max-width: 1000px) {
   .projects-carousel {
-    width: 380px; /* Exactly 1 card */
+    width: 410px; /* 380 + 30px for shadows/padding */
   }
 }
 
